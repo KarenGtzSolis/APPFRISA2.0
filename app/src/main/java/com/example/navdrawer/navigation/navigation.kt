@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,6 +47,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -99,7 +102,6 @@ fun MainPage() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
-    val searchbar= SearchByTags()
     val userLoggedIn = viewModel.isUserLoggedIn()
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(-1) // -1 means no item is selected
@@ -231,9 +233,7 @@ fun MainPage() {
 
 
                     actions = {
-                        IconButton(onClick = {
-                            //isSearchViewOpen.SearchByTags()
-                        }) {
+                        IconButton(onClick = {}) {
                             Icon(
                                 Icons.Filled.Search,
                                 contentDescription = "Search.",
@@ -296,33 +296,5 @@ fun MainPage() {
                 }
                 }
             }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchByTags() {
-    var text by rememberSaveable { mutableStateOf("") }
-    var active by rememberSaveable { mutableStateOf(false) }
-
-    SearchBar(
-        query = text,
-        onQueryChange = { text = it },
-        onSearch = { active = false },
-        active = active,
-        onActiveChange = {
-            active = it
-        }
-    ) {
-        // Search result shown when active
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            items(30) { idx ->
-                // Search result
-            }
-        }
     }
 }
