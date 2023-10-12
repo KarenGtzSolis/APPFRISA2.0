@@ -28,145 +28,142 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
     private val _protectedResult = MutableStateFlow<UserProtectedResponse?>(null)
     val protectedResult: StateFlow<UserProtectedResponse?> = _protectedResult
 
+    fun addUser(name: String, lastname:String, phone:Int, password:String) {
+        _registrationResult.value = null
 
-/*
-fun addUser(telephone: Int, password: String) {
-    val user = UserRegister(telephone, password)
+        //val user = UserRegister(name,lastname,phone,email,password,tags,favorites)
+        val user = UserRegister(name,lastname,phone,password)
+        viewModelScope.launch {
+            val response: UserRegistrationResponse
+            try {
+                response = userService.insertUser(user)
+                _registrationResult.value = response
+            } catch (e: Exception) {
 
-    viewModelScope.launch {
-        val response: UserRegistrationResponse
-        try {
-            response = userService.insertUser(user)
-            _registrationResult.value = response
-        } catch (e: Exception) {
-
-            val errorResponse = UserRegistrationResponse(e.localizedMessage)
-            _registrationResult.value = errorResponse
-        }
-    }
-}
-
- */
-
-/*
-fun getUserFavoriteOrganization(token: String) {
-    viewModelScope.launch {
-        val response: GetUserFavoriteOrganizationsResponse
-        try {
-            response = userService.getUserFavoriteOrganization(token)
-            _getUserFavoriteOrgsResult.value = response
-        } catch (e: Exception) {
-
-            val errorResponse = e.localizedMessage
-            Log.d("ERROR-API", errorResponse)
-            //_getUserFavoriteOrgsResult.value = errorResponse
-        }
-    }
-}
-
-*/
-
-
-/*
-fun addUserFavoriteOrganization(token: String, orgId: String) {
-
-
-    viewModelScope.launch {
-        val response: AddFavoriteOrganizationResponse
-        try {
-            response = userService.addFavoriteOrganization(token, orgId)
-            _addOrgFavoriteResult.value = response
-        } catch (e: Exception) {
-
-            val errorResponse = AddFavoriteOrganizationResponse(e.localizedMessage)
-            _addOrgFavoriteResult.value = errorResponse
-        }
-    }
-}
-
-
- */
-
-fun loginUser(phone: Int, password: String) {
-
-    // Reset the login result to nul before making a new login request
-    _loginResult.value = null
-
-    val user = UserLogin(phone, password)
-
-    viewModelScope.launch {
-        val response: UserLoginResponse
-
-        try {
-            response = userService.loginUser(user)
-            _loginResult.value = response
-            Log.d("RESPONSE", response.id.toString())
-        } catch (e: HttpException) {
-
-            when (e.code()) {
-
-                400 -> {
-                    Log.d("RESPONSE", e.localizedMessage)
-                    val errorMessage = "Credenciales incorrectas"
-                    val errorResponse = UserLoginResponse()
-                    _loginResult.value = errorResponse
-                }
-
-                else -> {
-                    Log.d("RESPONSE", e.localizedMessage)
-                    val errorMessage = e.localizedMessage
-                    val errorResponse = UserLoginResponse()
-                    _loginResult.value = errorResponse
-                }
+                val errorResponse = UserRegistrationResponse(e.localizedMessage)
+                _registrationResult.value = errorResponse
             }
-        } catch (e: Exception) {
-            Log.d("RESPONSE", e.localizedMessage)
-            val errorMessage = e.localizedMessage
-            val errorResponse = UserLoginResponse()
-            _loginResult.value = errorResponse
         }
-
     }
-}
 
 
-/*
-fun testProtectedRequest(token: String) {
+    /*
+    fun getUserFavoriteOrganization(token: String) {
+        viewModelScope.launch {
+            val response: GetUserFavoriteOrganizationsResponse
+            try {
+                response = userService.getUserFavoriteOrganization(token)
+                _getUserFavoriteOrgsResult.value = response
+            } catch (e: Exception) {
 
-    viewModelScope.launch {
-        val response: UserProtectedResponse
-        try {
-            response = userService.protectedRoute(token)
-            _protectedResult.value = response
-            Log.d("RESPONSE", response.message)
-        } catch (e: HttpException) {
+                val errorResponse = e.localizedMessage
+                Log.d("ERROR-API", errorResponse)
+                //_getUserFavoriteOrgsResult.value = errorResponse
+            }
+        }
+    }
 
-            when (e.code()) {
+    */
 
-                401 -> {
-                    Log.d("RESPONSE", e.localizedMessage)
-                    val errorMessage = "Invalid credentials"
-                    val errorResponse = UserProtectedResponse(errorMessage)
-                    _protectedResult.value = errorResponse
+
+    /*
+    fun addUserFavoriteOrganization(token: String, orgId: String) {
+        viewModelScope.launch {
+            val response: AddFavoriteOrganizationResponse
+            try {
+                response = userService.addFavoriteOrganization(token, orgId)
+                _addOrgFavoriteResult.value = response
+            } catch (e: Exception) {
+
+                val errorResponse = AddFavoriteOrganizationResponse(e.localizedMessage)
+                _addOrgFavoriteResult.value = errorResponse
+            }
+        }
+    }
+
+
+     */
+
+    fun loginUser(phone: Int, password: String) {
+
+        // Reset the login result to nul before making a new login request
+        _loginResult.value = null
+
+        val user = UserLogin(phone, password)
+
+        viewModelScope.launch {
+            val response: UserLoginResponse
+
+            try {
+                response = userService.loginUser(user)
+                _loginResult.value = response
+                Log.d("RESPONSE", response.id.toString())
+            } catch (e: HttpException) {
+
+                when (e.code()) {
+
+                    400 -> {
+                        Log.d("RESPONSE", e.localizedMessage)
+                        val errorMessage = "Credenciales incorrectas"
+                        val errorResponse = UserLoginResponse()
+                        _loginResult.value = errorResponse
+                    }
+
+                    else -> {
+                        Log.d("RESPONSE", e.localizedMessage)
+                        val errorMessage = e.localizedMessage
+                        val errorResponse = UserLoginResponse()
+                        _loginResult.value = errorResponse
+                    }
                 }
-
-                else -> {
-                    Log.d("RESPONSE", e.localizedMessage)
-                    val errorMessage = e.localizedMessage
-                    val errorResponse = UserProtectedResponse(errorMessage)
-                    _protectedResult.value = errorResponse
-                }
-
+            } catch (e: Exception) {
+                Log.d("RESPONSE", e.localizedMessage)
+                val errorMessage = e.localizedMessage
+                val errorResponse = UserLoginResponse()
+                _loginResult.value = errorResponse
             }
 
+        }
+    }
+
+
+    /*
+    fun testProtectedRequest(token: String) {
+
+        viewModelScope.launch {
+            val response: UserProtectedResponse
+            try {
+                response = userService.protectedRoute(token)
+                _protectedResult.value = response
+                Log.d("RESPONSE", response.message)
+            } catch (e: HttpException) {
+
+                when (e.code()) {
+
+                    401 -> {
+                        Log.d("RESPONSE", e.localizedMessage)
+                        val errorMessage = "Invalid credentials"
+                        val errorResponse = UserProtectedResponse(errorMessage)
+                        _protectedResult.value = errorResponse
+                    }
+
+                    else -> {
+                        Log.d("RESPONSE", e.localizedMessage)
+                        val errorMessage = e.localizedMessage
+                        val errorResponse = UserProtectedResponse(errorMessage)
+                        _protectedResult.value = errorResponse
+                    }
+
+                }
+
+
+            }
 
         }
-
     }
-}
 
 
- */
+     */
 
 
 }
