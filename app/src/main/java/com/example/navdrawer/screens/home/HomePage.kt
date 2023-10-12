@@ -373,8 +373,10 @@ fun ModalBottomSheetM3() {
 
 @Composable
 fun BottomSheetContent(onHideButtonClick: () -> Unit) {
-    var text by remember { mutableStateOf("") }
-    Column(
+    var title by remember { mutableStateOf("") }
+    var contenido by remember { mutableStateOf("") }
+    var urlimg by remember { mutableStateOf("") }
+        Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -385,8 +387,8 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
                     .padding(bottom = 16.dp)
                     .align(Alignment.CenterHorizontally))
             OutlinedTextField(
-                value = text,
-                onValueChange = { newText -> text = newText },
+                value = title,
+                onValueChange = { newTitle -> title = newTitle },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = RojoFrisa,
                     unfocusedBorderColor = BlancoGris,
@@ -402,8 +404,8 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
             )
 
             OutlinedTextField(
-                value = text,
-                onValueChange = { newText -> text = newText },
+                value = contenido,
+                onValueChange = { newContenido -> contenido = newContenido },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = RojoFrisa,
                     unfocusedBorderColor = BlancoGris,
@@ -420,8 +422,8 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
             )
 
             OutlinedTextField(
-                value = text,
-                onValueChange = { newText -> text = newText },
+                value = urlimg,
+                onValueChange = { newUrlimg -> urlimg = newUrlimg},
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = RojoFrisa,
                     unfocusedBorderColor = BlancoGris,
