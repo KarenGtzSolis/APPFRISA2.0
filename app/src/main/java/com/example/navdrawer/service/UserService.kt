@@ -27,7 +27,8 @@ interface UserService {
                 .create(UserService::class.java)
     }
 
-    @POST("api/user") // Ruta para el registro de usuario
+
+    @POST("user/register") // Ruta para el registro de usuario
     suspend fun insertUser(@Body user: UserRegister): UserRegistrationResponse
 
     @POST("user/login") // Ruta para el inicio de sesión de usuario
