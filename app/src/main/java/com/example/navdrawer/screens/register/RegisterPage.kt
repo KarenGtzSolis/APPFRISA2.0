@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,21 +32,62 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.R
+import com.example.navdrawer.model.UserRegistrationResponse
+import com.example.navdrawer.service.UserService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 
 import com.example.navdrawer.ui.theme.RojoFrisa
+import com.example.navdrawer.viewModel.UserViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RegisterPage(navController: NavController,
                  viewModel: AppViewModel
 ) {
+    val viewModel=UserViewModel(UserService.instance)
+    val showDelayedText=remember{mutableStateOf(false)}
+
+    /*
+    val phone= remember {
+        mutableStateOf("")
+    }
+
+    val password= remember {
+        mutableStateOf("")
+    }
+
+    val validatepassword=remember{
+        mutableStateOf("")
+    }
+
+     */
+
+    val registrationResult= remember {
+        mutableStateOf(UserRegistrationResponse())
+    }
+
+    LaunchedEffect(key1 = viewModel) {
+        viewModel.registrationResult.collect { result ->
+            if (result != null) {
+                registrationResult.value = result
+
+                showDelayedText.value = true
+            }
+        }
+    }
+
+
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -93,13 +135,15 @@ fun RegisterPage(navController: NavController,
             .background(color = GrisClaro),
         horizontalArrangement = Arrangement.Center,
         verticalArrangement = Arrangement.Center
-        ) {
+    ) {
         // Text Input y otros elementos
         val name = remember { mutableStateOf("") }
-        val last_name = remember { mutableStateOf("") }
+        val lastname = remember { mutableStateOf("") }
         val phone = remember { mutableStateOf("") }
         val email = remember { mutableStateOf("") }
         val password = remember { mutableStateOf("") }
+        val tags= remember { mutableStateOf("") }
+        val favorites=remember{mutableStateOf("")}
         val necesidad = remember { mutableStateOf("") }
 
         OutlinedTextField(
@@ -118,15 +162,15 @@ fun RegisterPage(navController: NavController,
                 .padding(5.dp)
                 .width(330.dp)
                 .height(59.dp)
-                //.offset(y = (130).dp)
+            //.offset(y = (130).dp)
             ,
             shape = RoundedCornerShape(90)
         )
 
         OutlinedTextField(
-            value = last_name.value,
-            onValueChange = { newValue ->
-                last_name.value = newValue
+            value = lastname.value,
+            onValueChange = {
+                lastname.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -139,16 +183,14 @@ fun RegisterPage(navController: NavController,
                 .padding(5.dp)
                 .width(330.dp)
                 .height(59.dp)
-                //.offset(y = (140).dp)
+            //.offset(y = (140).dp)
             ,
             shape = RoundedCornerShape(90)
         )
 
-        OutlinedTextField(
-            value = phone.value,
-            onValueChange = { newValue ->
-                phone.value = newValue
-            },
+        OutlinedTextField(value = phone.value, onValueChange = {
+            phone.value = it
+        },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
                 unfocusedBorderColor = BlancoGris,
@@ -160,15 +202,16 @@ fun RegisterPage(navController: NavController,
                 .padding(5.dp)
                 .width(330.dp)
                 .height(59.dp)
-                //.offset(y = (140).dp)
+            //.offset(y = (140).dp)
             ,
             shape = RoundedCornerShape(90)
         )
 
+        /*
         OutlinedTextField(
             value = email.value,
-            onValueChange = { newValue ->
-                email.value = newValue
+            onValueChange = {
+                email.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -181,15 +224,17 @@ fun RegisterPage(navController: NavController,
                 .padding(5.dp)
                 .width(330.dp)
                 .height(59.dp)
-                //.offset(y = (140).dp)
+            //.offset(y = (140).dp)
             ,
             shape = RoundedCornerShape(90)
         )
 
+         */
+
         OutlinedTextField(
             value = password.value,
-            onValueChange = { newValue ->
-                password.value = newValue
+            onValueChange = {
+                password.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -197,20 +242,23 @@ fun RegisterPage(navController: NavController,
                 focusedContainerColor = BlancoGris,
                 unfocusedContainerColor = BlancoGris
             ),
+            visualTransformation= PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
             label = { Text("Contraseña") },
             modifier = Modifier
                 .padding(5.dp)
                 .width(330.dp)
                 .height(59.dp)
-                //.offset(y = (140).dp)
+            //.offset(y = (140).dp)
             ,
             shape = RoundedCornerShape(90)
         )
 
+        /*
         OutlinedTextField(
             value = necesidad.value,
-            onValueChange = { newValue ->
-                necesidad.value = newValue
+            onValueChange = {
+                necesidad.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -223,17 +271,19 @@ fun RegisterPage(navController: NavController,
                 .padding(5.dp)
                 .width(330.dp)
                 .height(150.dp)
-                //.offset(y = (140).dp)
+            //.offset(y = (140).dp)
             ,
             shape = RoundedCornerShape(20)
         )
+
+         */
 
         // Botón de Registro
         Button(
             onClick = {
                 // Redirige a la página de registro (RegisterPage)
-                viewModel.setLoggedIn()
-                navController.navigate("TagsPage")
+                //navController.navigate("TagsPage")
+                viewModel.addUser(name.value, lastname.value, phone.value.trim().toInt(), password.value )
             },
             colors = ButtonDefaults.buttonColors(RojoFrisa),
             modifier = Modifier
@@ -247,6 +297,22 @@ fun RegisterPage(navController: NavController,
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 16.sp)
         }
+        LaunchedEffect(showDelayedText) {
+            if (showDelayedText.value) {
+                launch {
+                    //navController.navigate("TagsPage")
+                    delay(5000)
+                    // Delay for 2 seconds (adjust as needed)
+                    showDelayedText.value = false
+                }
+            }
+        }
+        if (showDelayedText.value) {
+            Text(text = "Registro Exitoso")
+            Text(text = "En 5 segundos serás redirigido a la pantalla de inicio.")
+            navController.navigate("TagsPage")
+        }
+
 
         // Imagen de orilla2
         /*
