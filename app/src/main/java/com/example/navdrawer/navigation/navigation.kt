@@ -4,12 +4,16 @@ import android.text.style.BackgroundColorSpan
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AddCircle
@@ -25,6 +29,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,6 +39,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.contentColorFor
@@ -83,17 +89,17 @@ data class NavigationItem(
     val route: String
 )
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage() {
     var isSearchViewOpen by rememberSaveable {
-        mutableStateOf(false)
+        mutableStateOf(-1)
     }
     val viewModel: AppViewModel = viewModel()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
+    val searchbar= SearchByTags()
     val userLoggedIn = viewModel.isUserLoggedIn()
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(-1) // -1 means no item is selected
@@ -226,6 +232,7 @@ fun MainPage() {
 
                     actions = {
                         IconButton(onClick = {
+                            //isSearchViewOpen.SearchByTags()
                         }) {
                             Icon(
                                 Icons.Filled.Search,
@@ -289,5 +296,33 @@ fun MainPage() {
                 }
                 }
             }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchByTags() {
+    var text by rememberSaveable { mutableStateOf("") }
+    var active by rememberSaveable { mutableStateOf(false) }
+
+    SearchBar(
+        query = text,
+        onQueryChange = { text = it },
+        onSearch = { active = false },
+        active = active,
+        onActiveChange = {
+            active = it
+        }
+    ) {
+        // Search result shown when active
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            items(30) { idx ->
+                // Search result
+            }
+        }
     }
 }
