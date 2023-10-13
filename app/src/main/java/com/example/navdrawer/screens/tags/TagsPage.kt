@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.navdrawer.R
+import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 import com.example.navdrawer.ui.theme.RojoFrisa
 import java.time.format.TextStyle
@@ -48,28 +50,31 @@ import kotlin.random.Random
 
 @Composable
 fun TagsPage(navController: NavController) {
-    header()
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        //verticalArrangement = Arrangement.Center
-    ) {
-
-        Text(
-            text = "Selecciona tags de tu interes",
-            style = androidx.compose.ui.text.TextStyle(
-                color = Color(0xFF000000),
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Start
-            ),
+    Column(modifier = Modifier.background(GrisClaro)
+        .fillMaxSize()) {
+        header()
+        Column(
             modifier = Modifier
-                .padding(16.dp)
-                .padding(top = 50.dp)
-        )
-        ContentView()
-        boton(navController)
+                .fillMaxWidth()
+                .padding(16.dp),
+            //verticalArrangement = Arrangement.Center
+        ) {
+
+            Text(
+                text = "Selecciona tags de tu interes",
+                style = androidx.compose.ui.text.TextStyle(
+                    color = Color(0xFF000000),
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Start
+                ),
+                modifier = Modifier
+                    //.padding(16.dp)
+                    .padding(bottom = 10.dp)
+            )
+            ContentView()
+            boton(navController)
+        }
     }
 }
 
@@ -77,8 +82,8 @@ fun TagsPage(navController: NavController) {
 fun header(){
     Column (modifier = Modifier
         .fillMaxWidth()
-        .padding(bottom = 70.dp),
-        horizontalAlignment = Alignment.CenterHorizontally){
+        //.padding(bottom = 70.dp),
+        ,horizontalAlignment = Alignment.CenterHorizontally){
         Image(
             painter = painterResource(id = R.drawable.circulorojo),
             contentDescription = null,
@@ -129,7 +134,7 @@ private fun ContentView() {
 
     FlowRow(
         modifier = Modifier
-            .height(420.dp)
+            .height(430.dp)
             .verticalScroll(rememberScrollState())
     ) {
         for (i in 0 until tagNames.size) {
@@ -194,6 +199,7 @@ fun boton(navController: NavController){
             onClick = {  navController.navigate("MainPage") },
             modifier = Modifier
                 .padding(16.dp)
+                .height(40.dp)
                 .width(100.dp),
             colors = ButtonDefaults.buttonColors(RojoFrisa),
         ) {
