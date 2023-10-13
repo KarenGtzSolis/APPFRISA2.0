@@ -47,7 +47,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import com.example.navdrawer.service.UserService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.RojoFrisa
@@ -63,11 +62,11 @@ fun LoginPage(navController: NavHostController,
     val userviewModel = UserViewModel(UserService.instance)
 
     var phone by remember {
-        mutableStateOf("12")
+        mutableStateOf("123")
     }
 
     var password by remember {
-        mutableStateOf("s12")
+        mutableStateOf("13")
     }
 
     var loginResult by remember {
@@ -262,7 +261,7 @@ fun LoginPage(navController: NavHostController,
                 )
 
                 Text(
-                    text = " ¿Eres OSC? Haz click aquí. ",
+                    text = "  ¿Eres OSC? Haz click aquí.  ",
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
@@ -278,7 +277,7 @@ fun LoginPage(navController: NavHostController,
                 )
 
                 Text(
-                    text = "¿Invitado? Haz click aquí",
+                    text = " Haz click aquí para ingresar como invitado. ",
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
@@ -290,7 +289,7 @@ fun LoginPage(navController: NavHostController,
                         //.align(Alignment.CenterHorizontally)
                         .padding(top = 10.dp)
                         .clickable {
-                            navController.navigate("HomePage")
+                            navController.navigate("MainPage")
                         }
                 )
             }
