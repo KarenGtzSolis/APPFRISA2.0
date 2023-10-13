@@ -53,16 +53,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.R
 import com.example.navdrawer.screens.about.AboutPage
@@ -81,7 +85,7 @@ import com.example.navdrawer.ui.theme.RojoFrisa
 
 
 import kotlinx.coroutines.launch
-
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 
 data class NavigationItem(
@@ -199,17 +203,6 @@ fun MainPage() {
                 TopAppBar(
                     modifier = Modifier
                         .background(BlancoGris),
-                    title = {
-                            Image(
-                                painter = painterResource(id = R.drawable.logo3),
-                                contentDescription = "Logo de Frisa",
-                                modifier = Modifier
-                                    .height(40.dp)
-                                    .offset(x = (110.dp))
-                                    .width(30.dp)
-                                    //.background(BlancoGris)
-                            )
-                    },
 
                     navigationIcon = {
                         IconButton(onClick = {
@@ -231,13 +224,28 @@ fun MainPage() {
                         }
                     },
 
+                    title = {
+                        Image(
+                            painter = painterResource(id = R.drawable.logo3),
+                            contentDescription = "Logo de Frisa",
+                            modifier = Modifier
+                                .height(40.dp)
+                                .offset(x = (130.dp))
+                                .width(30.dp)
+                            //.background(BlancoGris)
+                            //, alignment = Alignment.Center
+                        )
+                    },
 
                     actions = {
                         IconButton(onClick = {}) {
-                            Icon(
-                                Icons.Filled.Search,
-                                contentDescription = "Search.",
-                                tint = Color(0xFFE7182E)
+                            Image(
+                                painter = painterResource(id = R.drawable.tagicon),
+                                contentDescription = "Escoge Tags",
+                                modifier = Modifier
+                                    .height(25.dp)
+                                    //.offset(x = (110.dp))
+                                ,colorFilter = ColorFilter.tint(RojoFrisa)
                             )
                         }
                     }
