@@ -201,8 +201,8 @@ fun OrgRow(
 
                 Box(
                     modifier = Modifier
-                        .height(200.dp) // Adjust the height as needed
-                        //.fillMaxWidth()
+                        //height(200.dp) // Adjust the height as needed
+                        .fillMaxWidth()
                         .background(BlancoGris)
                 ) {
                     AsyncImage(

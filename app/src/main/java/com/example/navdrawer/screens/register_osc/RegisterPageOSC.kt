@@ -555,7 +555,7 @@ fun RegisterPageOSC(navController: NavController) {
         if (showDelayedText.value) {
             Text(text = "Registro Exitoso")
             Text(text = "En 5 segundos serás redirigido a la pantalla de inicio.")
-            navController.navigate("MainPage")
+            navController.navigate("HomePage")
         }
 
         // Imagen de orilla2
