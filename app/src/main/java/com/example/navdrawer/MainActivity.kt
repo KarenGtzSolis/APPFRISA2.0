@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.navdrawer.busquedatag.busquedatags
 import com.example.navdrawer.navigation.MainPage
 import com.example.navdrawer.screens.about.AboutPage
 import com.example.navdrawer.screens.detalles.detalles
@@ -93,6 +94,10 @@ class MainActivity : ComponentActivity() {
                         composable ("detalles" + "/{title}"){backStackEntry ->
                             backStackEntry.arguments?.getString("title")
                                 ?.let { detalles(it) }
+                        }
+
+                        composable("busquedatag") {
+                            busquedatags(navController)
                         }
                     }
 
