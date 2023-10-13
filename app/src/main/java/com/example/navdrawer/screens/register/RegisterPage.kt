@@ -144,7 +144,7 @@ fun RegisterPage(navController: NavController,
         val password = remember { mutableStateOf("") }
         val tags= remember { mutableStateOf("") }
         val favorites=remember{mutableStateOf("")}
-        val necesidad = remember { mutableStateOf("") }
+        val description = remember { mutableStateOf("") }
 
         OutlinedTextField(
             value = name.value,
@@ -254,11 +254,11 @@ fun RegisterPage(navController: NavController,
             shape = RoundedCornerShape(90)
         )
 
-        /*
+
         OutlinedTextField(
-            value = necesidad.value,
+            value = description.value,
             onValueChange = {
-                necesidad.value = it
+                description.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -276,14 +276,12 @@ fun RegisterPage(navController: NavController,
             shape = RoundedCornerShape(20)
         )
 
-         */
-
         // Botón de Registro
         Button(
             onClick = {
                 // Redirige a la página de registro (RegisterPage)
                 //navController.navigate("TagsPage")
-                viewModel.addUser(name.value, lastname.value, phone.value.trim().toInt(), password.value )
+                viewModel.addUser(name.value, lastname.value, phone.value.trim().toInt(), password.value, description.value)
             },
             colors = ButtonDefaults.buttonColors(RojoFrisa),
             modifier = Modifier
