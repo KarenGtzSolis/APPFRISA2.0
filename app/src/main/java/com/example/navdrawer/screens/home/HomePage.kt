@@ -145,6 +145,7 @@ fun contenidoOrgs(navController: NavController, viewModel: AppViewModel){
                     OrgRow(orgname = it.name, it.image) { orgname ->
                         Log.d("Organizaciones", "$orgname")
                         navController.navigate("AboutPage/" + orgname)
+
                     }
                 }
             },
