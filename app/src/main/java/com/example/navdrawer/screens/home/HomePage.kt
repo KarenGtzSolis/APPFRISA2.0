@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 
 import androidx.compose.foundation.layout.Row
-
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 
@@ -68,6 +67,7 @@ import androidx.navigation.NavController
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.R
 import androidx.compose.ui.Alignment.Companion.BottomEnd
+import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.ColorFilter
@@ -346,9 +346,8 @@ fun ModalBottomSheetM3() {
         contentPadding = PaddingValues(16.dp),// Optional padding to make it larger
         modifier = Modifier
             .offset(y = (15.dp))
-            .offset(x = (280.dp)),
-            colors = ButtonDefaults.buttonColors(RojoFrisa)
-
+            .offset(x = (300.dp)),
+        colors = ButtonDefaults.buttonColors(RojoFrisa),
 
     ) {
         Icon(
