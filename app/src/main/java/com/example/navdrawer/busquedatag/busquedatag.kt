@@ -1,4 +1,4 @@
-package com.example.navdrawer.screens.tags
+package com.example.navdrawer.busquedatag
 
 import android.graphics.Paint.Align
 import android.graphics.Paint.Style
@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -42,26 +42,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.navdrawer.R
-import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 import com.example.navdrawer.ui.theme.RojoFrisa
 import java.time.format.TextStyle
 import kotlin.random.Random
 
 @Composable
-fun TagsPage(navController: NavController) {
-    Column(modifier = Modifier.background(GrisClaro)
-        .fillMaxSize()) {
-        header()
+fun busquedatags(navController: NavController) {
+    Column (
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(GrisClaro)){
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .background(GrisClaro),
             //verticalArrangement = Arrangement.Center
         ) {
 
             Text(
-                text = "Selecciona tags de tu interes",
+                text = "Busca el tag de tu interes",
                 style = androidx.compose.ui.text.TextStyle(
                     color = Color(0xFF000000),
                     fontSize = 25.sp,
@@ -69,29 +71,11 @@ fun TagsPage(navController: NavController) {
                     textAlign = TextAlign.Start
                 ),
                 modifier = Modifier
-                    //.padding(16.dp)
                     .padding(bottom = 10.dp)
+
             )
             ContentView()
-            boton(navController)
         }
-    }
-}
-
-@Composable
-fun header(){
-    Column (modifier = Modifier
-        .fillMaxWidth()
-        //.padding(bottom = 70.dp),
-        ,horizontalAlignment = Alignment.CenterHorizontally){
-        Image(
-            painter = painterResource(id = R.drawable.circulorojo),
-            contentDescription = null,
-            modifier = Modifier
-                .size(80.dp)
-                //.offset(x = (125).dp)
-                .offset(y = -22.dp)
-        )
     }
 }
 
@@ -134,7 +118,7 @@ private fun ContentView() {
 
     FlowRow(
         modifier = Modifier
-            .height(430.dp)
+            .fillMaxHeight()
             .verticalScroll(rememberScrollState())
     ) {
         for (i in 0 until tagNames.size) {
@@ -148,30 +132,27 @@ private fun ContentView() {
 }
 
 @Composable
-private fun TagItem(text: String){
+private fun TagItem(text: String) {
 
-    var tagColor by remember { mutableStateOf(Color(0xFFB1B1B1)) }
+    var tagColor by remember { mutableStateOf(Color(0xFFE7182E)) }
     Box(
         modifier = Modifier
             .padding(top = 5.dp)
             .padding(horizontal = 5.dp)
             .clip(RoundedCornerShape(50.dp))
-            .background(Color(0XFFD81C30))
             .background(tagColor)
             .padding(horizontal = 10.dp, vertical = 10.dp)
             .clickable {
-                tagColor =
-                    if (tagColor == Color(0xFFB1B1B1)) Color(0xFFE7182E) else Color(0xFFB1B1B1)
+                tagColor = Color(0xFFE7182E)
             },
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Text(
             text,
             color = Color.White,
             fontWeight = FontWeight.SemiBold
         )
     }
-
 
 }
 
@@ -184,28 +165,4 @@ private fun generateRandomStrings(): String {
             charPool[Random.nextInt(0, charPool.size)]
         }
         .joinToString("")
-}
-
-
-
-@Composable
-fun boton(navController: NavController){
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Button(
-            onClick = {  navController.navigate("MainPage") },
-            modifier = Modifier
-                .padding(16.dp)
-                .height(40.dp)
-                .width(100.dp),
-            colors = ButtonDefaults.buttonColors(RojoFrisa),
-        ) {
-            Text("Listo",
-                fontWeight = FontWeight.ExtraBold
-            )
-        }
-    }
 }

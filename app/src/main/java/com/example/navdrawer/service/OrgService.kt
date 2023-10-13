@@ -1,8 +1,11 @@
 package com.example.navdrawer.service
 
 
+
 import OrgRegister
 import com.example.navdrawer.model.OrganizationResponse
+
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -14,6 +17,11 @@ interface OrgService {
 
     //@POST("organizations/add") // Incluye la ruta específica del endpoint aquí
     //suspend fun addOrg(@Header("Authorization") token: String, @Body org: OrgRegister): OrgRegisterResponse
+
+
+    //@GET("organizations/all")
+    //suspend fun getAllOrgs(): List<OrgRegister>
+
 
     //@GET("organizations/all")
     //suspend fun getAllOrgs(): List<OrgRegister>

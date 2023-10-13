@@ -1,20 +1,13 @@
 package com.example.navdrawer.navigation
 
-import android.text.style.BackgroundColorSpan
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AddCircle
@@ -23,15 +16,12 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,13 +31,10 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -55,7 +42,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.DefaultShadowColor
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -65,10 +52,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.R
+import com.example.navdrawer.busquedatag.busquedatags
 import com.example.navdrawer.screens.about.AboutPage
 import com.example.navdrawer.screens.detalles.detalles
 import com.example.navdrawer.screens.home.FavsPage
-
 import com.example.navdrawer.screens.home.HomePage
 import com.example.navdrawer.screens.login.LoginPage
 import com.example.navdrawer.screens.posts.PostsPage
@@ -78,11 +65,7 @@ import com.example.navdrawer.screens.seguridad.SecurityPage
 import com.example.navdrawer.screens.tags.TagsPage
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.RojoFrisa
-
-
 import kotlinx.coroutines.launch
-
-
 
 data class NavigationItem(
     val title: String,
@@ -150,7 +133,7 @@ fun MainPage() {
 
     ModalNavigationDrawer(drawerContent = {
 
-        ModalDrawerSheet(drawerContainerColor = BlancoGris) {
+        ModalDrawerSheet(drawerContainerColor = BlancoGris, drawerContentColor = BlancoGris) {
 
             Spacer(modifier = Modifier
                 .height(16.dp)
@@ -185,31 +168,20 @@ fun MainPage() {
                         }
                     },
                     modifier = Modifier
-                        .padding(NavigationDrawerItemDefaults.ItemPadding)
-                        .background(BlancoGris),
+                        .padding(NavigationDrawerItemDefaults.ItemPadding),
                 )
             }
         }
     }, drawerState = drawerState) {
         Scaffold(
             containerColor = BlancoGris,
+            contentColor = BlancoGris,
             modifier = Modifier.background(BlancoGris),
             topBar = {
                 // Mover el TopAppBar aquí para que esté siempre presente
                 TopAppBar(
                     modifier = Modifier
                         .background(BlancoGris),
-                    title = {
-                            Image(
-                                painter = painterResource(id = R.drawable.logo3),
-                                contentDescription = "Logo de Frisa",
-                                modifier = Modifier
-                                    .height(40.dp)
-                                    .offset(x = (110.dp))
-                                    .width(30.dp)
-                                    //.background(BlancoGris)
-                            )
-                    },
 
                     navigationIcon = {
                         IconButton(onClick = {
@@ -231,13 +203,30 @@ fun MainPage() {
                         }
                     },
 
+                    title = {
+                        Image(
+                            painter = painterResource(id = R.drawable.logo3),
+                            contentDescription = "Logo de Frisa",
+                            modifier = Modifier
+                                .height(40.dp)
+                                .offset(x = (130.dp))
+                                .width(30.dp)
+                            //.background(BlancoGris)
+                            //, alignment = Alignment.Center
+                        )
+                    },
 
                     actions = {
-                        IconButton(onClick = {}) {
-                            Icon(
-                                Icons.Filled.Search,
-                                contentDescription = "Search.",
-                                tint = Color(0xFFE7182E)
+                        IconButton(onClick = {
+                            navController.navigate("busquedatag" )
+                        }) {
+                            Image(
+                                painter = painterResource(id = R.drawable.tagicon),
+                                contentDescription = "Escoge Tags",
+                                modifier = Modifier
+                                    .height(25.dp)
+                                    //.offset(x = (110.dp))
+                                ,colorFilter = ColorFilter.tint(RojoFrisa)
                             )
                         }
                     }
@@ -248,10 +237,8 @@ fun MainPage() {
                 .padding(it)
                 .background(BlancoGris)) {
                 NavHost(navController = navController, startDestination = "HomePage") {
-
                     composable("LoginPage") {
                         LoginPage(navController, viewModel){
-
                         }
                     }
                     composable("RegisterPage") {
@@ -281,7 +268,6 @@ fun MainPage() {
                         MainPage()
                     }
 
-
                     composable("AboutPage" + "/{org}") { backStackEntry ->
                         backStackEntry.arguments?.getString("org")
                             ?.let { AboutPage(it, navController) }
@@ -293,8 +279,11 @@ fun MainPage() {
                             ?.let { detalles(it) }
                     }
 
-                }
+                    composable("busquedatag") {
+                        busquedatags(navController)
+                    }
                 }
             }
+        }
     }
 }
