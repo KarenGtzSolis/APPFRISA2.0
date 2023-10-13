@@ -1,7 +1,7 @@
 package com.example.navdrawer.service
 
 
-import com.example.navdrawer.model.OrgRegister
+// import com.example.navdrawer.model.OrgRegister
 import com.example.navdrawer.model.UserLogin
 import com.example.navdrawer.model.UserLoginResponse
 import com.example.navdrawer.model.UserRegister

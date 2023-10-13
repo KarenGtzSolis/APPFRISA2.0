@@ -168,8 +168,7 @@ fun MainPage() {
                         }
                     },
                     modifier = Modifier
-                        .padding(NavigationDrawerItemDefaults.ItemPadding)
-                        .background(BlancoGris),
+                        .padding(NavigationDrawerItemDefaults.ItemPadding),
                 )
             }
         }

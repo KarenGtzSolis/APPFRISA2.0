@@ -49,26 +49,33 @@ import kotlin.random.Random
 
 @Composable
 fun busquedatags(navController: NavController) {
-    Column(
+    Column (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        //verticalArrangement = Arrangement.Center
-    ) {
-
-        Text(
-            text = "Busca el tag de tu interes",
-            style = androidx.compose.ui.text.TextStyle(
-                color = Color(0xFF000000),
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Start
-            ),
+            .fillMaxHeight()
+            .background(GrisClaro)){
+        Column(
             modifier = Modifier
-                .padding(bottom = 10.dp)
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(GrisClaro),
+            //verticalArrangement = Arrangement.Center
+        ) {
 
-        )
-        ContentView()
+            Text(
+                text = "Busca el tag de tu interes",
+                style = androidx.compose.ui.text.TextStyle(
+                    color = Color(0xFF000000),
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Start
+                ),
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+
+            )
+            ContentView()
+        }
     }
 }
 
@@ -125,7 +132,7 @@ private fun ContentView() {
 }
 
 @Composable
-private fun TagItem(text: String){
+private fun TagItem(text: String) {
 
     var tagColor by remember { mutableStateOf(Color(0xFFE7182E)) }
     Box(
@@ -139,14 +146,13 @@ private fun TagItem(text: String){
                 tagColor = Color(0xFFE7182E)
             },
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Text(
             text,
             color = Color.White,
             fontWeight = FontWeight.SemiBold
         )
     }
-
 
 }
 

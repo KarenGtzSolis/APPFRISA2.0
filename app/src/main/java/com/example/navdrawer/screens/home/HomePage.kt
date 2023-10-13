@@ -67,23 +67,20 @@ fun HomePage(navController: NavController, viewModel: AppViewModel) {
     val loggedIn = remember {
         mutableStateOf(viewModel.isUserLoggedIn())
     }
-
-    Column (
+    Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .fillMaxHeight()
             .background(GrisClaro)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.orilla1),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(160.dp)
-                .offset(y = (0.dp))
-                .offset(x = ((-120).dp))
-        )
+        header()
     }
+    contenidoHome(navController = navController, viewModel = viewModel)
+    ModalBottomSheetM3()
+}
 
+@Composable
+fun contenidoHome(navController: NavController, viewModel: AppViewModel){
     val organizaciones: List<String> = listOf(
         "Organizacion A",
         "Organizacion B",
@@ -98,49 +95,41 @@ fun HomePage(navController: NavController, viewModel: AppViewModel) {
         "¿Necesitas ayuda?"
     )
 
-    Surface(
-        modifier = Modifier.background(GrisClaro),
-    ) {
-        header( )
-
-        Column(modifier = Modifier.padding(12.dp)) {
-            LazyRow(
-                modifier = Modifier
-                    .padding(top = 100.dp)
-                    .background(GrisClaro),
-                content = {
-                    items(items = organizaciones) {
-                        OrgRow(orgname = it) { orgname ->
-                            Log.d("Organizaciones", "$orgname")
-                            //navController.navigate("movieDetail/$movie") // Navega a la pantalla de detalles con el nombre de la película
-                            navController.navigate("AboutPage/" + orgname)
-                        }
-                    }
-                },
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            )
-
-            Column {
-                Text(
-                    text = "Publicaciones",
-                    style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(10.dp)
-                )
-            }
-
-            LazyColumn {
-                items(items = posttitulo) {
-                    CardOrganizaciones(postTitle = it) { postTitle ->
-                        navController.navigate("detalles/" + postTitle)
+    Column(modifier = Modifier.padding(12.dp)) {
+        LazyRow(
+            modifier = Modifier
+                .padding(top = 100.dp)
+                .background(GrisClaro),
+            content = {
+                items(items = organizaciones) {
+                    OrgRow(orgname = it) { orgname ->
+                        Log.d("Organizaciones", "$orgname")
+                        //navController.navigate("movieDetail/$movie") // Navega a la pantalla de detalles con el nombre de la película
+                        navController.navigate("AboutPage/" + orgname)
                     }
                 }
+            },
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        )
+
+        Column {
+            Text(
+                text = "Publicaciones",
+                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(10.dp)
+            )
+        }
+
+        LazyColumn {
+            items(items = posttitulo) {
+                CardOrganizaciones(postTitle = it) { postTitle ->
+                    navController.navigate("detalles/" + postTitle)
+                }
             }
-            ModalBottomSheetM3()
         }
     }
-    ModalBottomSheetM3()
 }
 
 @Composable
@@ -317,7 +306,8 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier
+            .fillMaxWidth()) {
             Text("Publicación", fontWeight = FontWeight.ExtraBold, color = Color.Black,fontSize = 22.sp,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
@@ -327,9 +317,9 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
                 onValueChange = { newTitle -> title = newTitle },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = RojoFrisa,
-                    unfocusedBorderColor = BlancoGris,
-                    focusedContainerColor = BlancoGris,
-                    unfocusedContainerColor = BlancoGris
+                    unfocusedBorderColor = GrisClaro,
+                    focusedContainerColor = GrisClaro,
+                    unfocusedContainerColor = GrisClaro
                 ),
                 label = { Text("Título") },
                 modifier = Modifier
@@ -344,9 +334,9 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
                 onValueChange = { newContenido -> contenido = newContenido },
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = RojoFrisa,
-                    unfocusedBorderColor = BlancoGris,
-                    focusedContainerColor = BlancoGris,
-                    unfocusedContainerColor = BlancoGris
+                    unfocusedBorderColor = GrisClaro,
+                    focusedContainerColor = GrisClaro,
+                    unfocusedContainerColor = GrisClaro
                 ),
                 label = { Text("Contenido") },
                 modifier = Modifier
@@ -362,9 +352,9 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
                 onValueChange = { newUrlimg -> urlimg = newUrlimg},
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = RojoFrisa,
-                    unfocusedBorderColor = BlancoGris,
-                    focusedContainerColor = BlancoGris,
-                    unfocusedContainerColor = BlancoGris
+                    unfocusedBorderColor = GrisClaro,
+                    focusedContainerColor = GrisClaro,
+                    unfocusedContainerColor = GrisClaro
                 ),
                 label = { Text("Imágen") },
                 modifier = Modifier
