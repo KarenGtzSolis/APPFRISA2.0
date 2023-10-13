@@ -40,6 +40,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,12 +59,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import com.example.navdrawer.UserViewModel.OrganizationViewModel
+import com.example.navdrawer.model.OrganizationResponse
+import com.example.navdrawer.service.OrgService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 import com.example.navdrawer.ui.theme.RojoFrisa
 
 @Composable
 fun HomePage(navController: NavController, viewModel: AppViewModel) {
+
+
+    val orgViewModel = OrganizationViewModel(OrgService.instance)
+
     val loggedIn = remember {
         mutableStateOf(viewModel.isUserLoggedIn())
     }
@@ -75,9 +84,29 @@ fun HomePage(navController: NavController, viewModel: AppViewModel) {
     ) {
         header()
     }
+
+    val Organizations = remember {
+        mutableStateOf(OrganizationResponse())
+    }
+
+    LaunchedEffect(key1 = orgViewModel.getOrgResult) {
+        orgViewModel.getUserFavoriteOrganization()
+        orgViewModel.getOrgResult.collect { result ->
+            if (result != null) {
+
+                val organizationsResponse = OrganizationResponse()
+                organizationsResponse.addAll(result)
+                Organizations.value = organizationsResponse
+
+            }
+        }
+    }
+
+
     contenidoHome(navController = navController, viewModel = viewModel)
     ModalBottomSheetM3()
 }
+
 
 @Composable
 fun contenidoHome(navController: NavController, viewModel: AppViewModel){
@@ -95,6 +124,22 @@ fun contenidoHome(navController: NavController, viewModel: AppViewModel){
         "¿Necesitas ayuda?"
     )
 
+    Surface(
+        modifier = Modifier.background(GrisClaro)
+    ) {
+
+        header()
+
+
+
+        Column(modifier = Modifier.padding(12.dp)) {
+            LazyRow(
+                modifier = Modifier
+                    .padding(top = 100.dp),
+                content = {
+                items(items = Organizations.value) {
+                    OrgRow(orgname = it.name,it.image) { orgname ->
+
     Column(modifier = Modifier.padding(12.dp)) {
         LazyRow(
             modifier = Modifier
@@ -102,7 +147,7 @@ fun contenidoHome(navController: NavController, viewModel: AppViewModel){
                 .background(GrisClaro),
             content = {
                 items(items = organizaciones) {
-                    OrgRow(orgname = it) { orgname ->
+
                         Log.d("Organizaciones", "$orgname")
                         //navController.navigate("movieDetail/$movie") // Navega a la pantalla de detalles con el nombre de la película
                         navController.navigate("AboutPage/" + orgname)
@@ -135,6 +180,7 @@ fun contenidoHome(navController: NavController, viewModel: AppViewModel){
 @Composable
 fun OrgRow(
     orgname: String,
+    url: String,
     onItemClick: (String) -> Unit = {}
 ) {
     val navController = rememberNavController()
@@ -164,11 +210,18 @@ fun OrgRow(
                         .fillMaxWidth()
                         .background(BlancoGris)
                 ) {
+
+
+                    AsyncImage(
+                        model = url,
+                        contentDescription = null,
+
                     Image(
                         painter = painterResource(id = R.drawable.arena1),
                         contentDescription = "Imagen de la organización",
                         contentScale = ContentScale.Crop,
                         //modifier = Modifier.fillMaxHeight()
+
                     )
                     /*
                     Icon(
