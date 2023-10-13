@@ -1,6 +1,7 @@
 package com.example.navdrawer.screens.login_osc
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,10 +23,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -38,13 +43,62 @@ import androidx.navigation.NavHostController
 import com.example.navdrawer.AppViewModel
 import androidx.compose.ui.unit.sp
 import com.example.navdrawer.R
+import com.example.navdrawer.model.OrgLoginResponse
+import com.example.navdrawer.model.OrgRegisterResponse
+import com.example.navdrawer.service.OrgService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 import com.example.navdrawer.ui.theme.RojoFrisa
+import com.example.navdrawer.viewModel.OrgViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun LoginPageOSC(navController: NavHostController, viewModel: AppViewModel) {
+fun LoginPageOSC(navController: NavHostController, viewModel: AppViewModel,
+                 onLoggedInChanged:(Boolean)->Unit) {
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val orgviewModel= OrgViewModel(OrgService.instance)
+
+    var phone by remember{
+        mutableStateOf("")
+    }
+
+    var password by remember{
+        mutableStateOf("")
+    }
+
+    var orgloginResult by remember {
+        mutableStateOf(OrgLoginResponse())
+    }
+
+    LaunchedEffect(key1 = orgviewModel) {
+        orgviewModel.orgLoginResult.collect { result ->
+            if (result != null) {
+                if(result.id?.isNotEmpty()==true){
+                    orgloginResult = result
+                    orgloginResult.id?.let {
+                        //snackbarHostState.showSnackbar("Login exitoso...")
+                        /* viewModel.storeValueInDataStore(
+                             it,
+                             com.example.navdrawer.util.constants.Constants.TOKEN
+                         )*/
+                        viewModel.setToken(it)
+                        viewModel.setLoggedIn()
+                        onLoggedInChanged(true)
+                        navController.navigate("MainPage")
+
+                        Log.d("DATASTORE", "Token saved: ${it}")
+                    }
+                }
+
+                /*        if (loginResult?.token != null) {
+                    snackbarHostState.showSnackbar("Login exitoso...")
+                }*/
+            }
+        }
+    }
+
     if (!viewModel.isUserLoggedIn()) {
         // El usuario no está autenticado, mostrar la pantalla de inicio de sesión
         Column(
@@ -112,7 +166,7 @@ fun LoginPageOSC(navController: NavHostController, viewModel: AppViewModel) {
                         focusedContainerColor = BlancoGris,
                         unfocusedContainerColor = BlancoGris
                     ),
-                    label = { Text("Correo Electrónico") }, // Etiqueta del campo
+                    label = { Text("Teléfono") }, // Etiqueta del campo
                     modifier = Modifier
                         .padding(5.dp)
                         .width(233.dp)
@@ -148,8 +202,9 @@ fun LoginPageOSC(navController: NavHostController, viewModel: AppViewModel) {
                 Button(
                     onClick = {
                         // Redirige a la página de inicio (HomePage) si se autentica con éxito
-                        viewModel.setLoggedIn()
-                        navController.navigate("MainPage")
+                        //viewModel.setLoggedIn()
+                        //navController.navigate("MainPage")
+                        orgviewModel.loginOrg(phone.trim().toInt(), password)
                     },
                     colors = ButtonDefaults.buttonColors(RojoFrisa),
                     modifier = Modifier

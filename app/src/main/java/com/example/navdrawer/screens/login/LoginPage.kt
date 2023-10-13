@@ -62,11 +62,11 @@ fun LoginPage(navController: NavHostController,
     val userviewModel = UserViewModel(UserService.instance)
 
     var phone by remember {
-        mutableStateOf("12")
+        mutableStateOf("123")
     }
 
     var password by remember {
-        mutableStateOf("s12")
+        mutableStateOf("13")
     }
 
     var loginResult by remember {
@@ -261,7 +261,7 @@ fun LoginPage(navController: NavHostController,
                 )
 
                 Text(
-                    text = " ¿Eres OSC? Haz click aquí. ",
+                    text = "  ¿Eres OSC? Haz click aquí.  ",
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
@@ -273,6 +273,23 @@ fun LoginPage(navController: NavHostController,
                         .padding(top = 10.dp)
                         .clickable {
                             navController.navigate("LoginPageOSC")
+                        }
+                )
+
+                Text(
+                    text = " Haz click aquí para ingresar como invitado. ",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        textDecoration = TextDecoration.Underline
+
+                    ),
+                    modifier = Modifier
+                        //.offset(y = (220.dp))
+                        //.align(Alignment.CenterHorizontally)
+                        .padding(top = 10.dp)
+                        .clickable {
+                            navController.navigate("MainPage")
                         }
                 )
             }

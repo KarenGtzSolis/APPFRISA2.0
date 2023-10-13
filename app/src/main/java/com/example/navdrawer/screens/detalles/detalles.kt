@@ -40,13 +40,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.R
+import com.example.navdrawer.ui.theme.GrisClaro
 
 @Composable
 fun detalles(posttitulo: String = "sin nombre"){
 
     var isFavorito by remember { mutableStateOf(false) }
 
-Column {
+Column (modifier = Modifier.background(GrisClaro)) {
     Box() {
 
         Image(
@@ -55,7 +56,6 @@ Column {
             ),
             contentDescription = "Imagen de la organización",
             modifier = Modifier
-                .padding(5.dp)
                 .fillMaxWidth(),
 
             contentScale = ContentScale.Crop
@@ -71,17 +71,12 @@ Column {
 
 
             )
-
-
-
     Text(
         text = "Escrito por: ARENA",
         style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.ExtraBold),
         color = Color.Black,
         modifier = Modifier
-            .padding(2.dp)
-            .offset(x = (16.dp))
-
+            .padding(10.dp)
 
     )
 /*
@@ -114,17 +109,7 @@ Column {
 
  */
 
-
-
-
-
-
-
-LazyColumn(
-    modifier = Modifier
-        .padding(1.dp)
-
-) {
+LazyColumn() {
 
     item {
         Text(
@@ -145,23 +130,5 @@ LazyColumn(
 
 
 
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
+}

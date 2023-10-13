@@ -71,7 +71,9 @@ class MainActivity : ComponentActivity() {
                             TagsPage(navController)
                         }
                         composable("LoginPageOSC") {
-                            LoginPageOSC(navController,viewModel)
+                            LoginPageOSC(navController,viewModel){
+
+                            }
                         }
                         composable("ProfilePage") {
                             ProfilePage(viewModel)
@@ -133,6 +135,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-

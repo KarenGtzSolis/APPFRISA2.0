@@ -1,5 +1,7 @@
 package com.example.navdrawer.service
 
+import com.example.navdrawer.model.OrgLogin
+import com.example.navdrawer.model.OrgLoginResponse
 import com.example.navdrawer.model.OrgRegister
 import com.example.navdrawer.model.OrgRegisterResponse
 import retrofit2.Retrofit
@@ -10,20 +12,18 @@ import retrofit2.http.POST
 
 interface OrgService {
 
-    @POST("organizations/add") // Incluye la ruta específica del endpoint aquí
-    suspend fun addOrg(@Header("Authorization") token: String, @Body org: OrgRegister): OrgRegisterResponse
-
     companion object {
-        // Especifica la URL base sin incluir la ruta específica del endpoint
-        private const val BASE_URL = "https://apifrisa-py6x-dev.fl0.io/"
-
-        fun create(): OrgService {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+        val instance: OrgService =
+            Retrofit.Builder().baseUrl("https://androidapi-8n8l-dev.fl0.io/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-
-            return retrofit.create(OrgService::class.java)
-        }
+                .create(OrgService::class.java)
     }
+
+    @POST("organization/register") // Incluye la ruta específica del endpoint aquí
+    suspend fun insertOrg(@Body org: OrgRegister): OrgRegisterResponse
+
+    @POST("organization/login")
+    suspend fun loginOrg(@Body user: OrgLogin): OrgLoginResponse
+
 }

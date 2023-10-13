@@ -93,5 +93,9 @@ dependencies {
 
 
     implementation ("com.github.skydoves:landscapist-glide:1.3.7")
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    implementation ("androidx.compose.ui:ui:x.y.z")
+    implementation ("androidx.compose.foundation:foundation:x.y.z")
 
 }

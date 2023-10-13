@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 
 
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -54,6 +55,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -80,105 +82,101 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+
+import com.example.navdrawer.UserViewModel.OrganizationViewModel
+import com.example.navdrawer.model.OrganizationResponse
+import com.example.navdrawer.service.OrgService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 import com.example.navdrawer.ui.theme.Purple80
 import com.example.navdrawer.ui.theme.RojoFrisa
+import coil.compose.AsyncImage
 
 
 @Composable
 fun HomePage(navController: NavController, viewModel: AppViewModel) {
 
-    val loggedIn = remember {
-        mutableStateOf(viewModel.isUserLoggedIn())
-    }
-
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(GrisClaro)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.orilla1),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(160.dp)
-                .offset(y = (0.dp))
-                .offset(x = ((-120).dp))
-        )
+        header()
+    }
+    contenidoOrgs(navController = navController, viewModel = viewModel)
+    ModalBottomSheetM3()
+}
+
+@Composable
+fun contenidoOrgs(navController: NavController, viewModel: AppViewModel){
+    val orgViewModel = OrganizationViewModel(OrgService.instance)
+    val loggedIn = remember {
+        mutableStateOf(viewModel.isUserLoggedIn())
     }
 
-    val organizaciones: List<String> = listOf(
-        "Organizacion A",
-        "Organizacion B",
-        "Organizacion C",
-        "Organizacion D ",
-        "Organizacion E",
-        "Organizacion F"
-    )
+    val Organizations = remember {
+        mutableStateOf(OrganizationResponse())
+    }
+
+    LaunchedEffect(key1 = orgViewModel.getOrgResult) {
+        orgViewModel.getUserFavoriteOrganization()
+        orgViewModel.getOrgResult.collect { result ->
+            if (result != null) {
+
+                val organizationsResponse = OrganizationResponse()
+                organizationsResponse.addAll(result)
+                Organizations.value = organizationsResponse
+
+            }
+        }
+    }
 
     val posttitulo: List<String> = listOf(
         "¿Qué es autismo?",
         "¿Necesitas ayuda?"
     )
 
-    Surface(
-        modifier = Modifier.background(GrisClaro)
-    ) {
-
-        header()
-
-
-
-        Column(modifier = Modifier.padding(12.dp)) {
-            LazyRow(
-                modifier = Modifier
-                    .padding(top = 100.dp),
-                content = {
-                items(items = organizaciones) {
-                    OrgRow(orgname = it) { orgname ->
+    Column(modifier = Modifier.padding(12.dp)) {
+        LazyRow(
+            modifier = Modifier
+                .padding(top = 100.dp),
+            content = {
+                items(items = Organizations.value) {
+                    OrgRow(orgname = it.name, it.image) { orgname ->
                         Log.d("Organizaciones", "$orgname")
-                        //navController.navigate("movieDetail/$movie") // Navega a la pantalla de detalles con el nombre de la película
                         navController.navigate("AboutPage/" + orgname)
+
                     }
                 }
             },
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        )
+
+        Column {
+            Text(
+                text = "Publicaciones",
+                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(10.dp)
             )
-            /*
-            PostsPage(navController)
+        }
 
-             */
-            Column {
-                Text(text = "Publicaciones", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),color = Color.Black,
-                    modifier = Modifier
-                        .padding(10.dp)
-                )
-            }
-
-            LazyColumn {
-                items(items=posttitulo) {
-                    CardOrganizaciones(postTitle = it){postTitle->
-                        navController.navigate("detalles/"+postTitle)
-                    }
+        LazyColumn {
+            items(items = posttitulo) {
+                CardOrganizaciones(postTitle = it) { postTitle ->
+                    navController.navigate("detalles/" + postTitle)
                 }
             }
-
-            ModalBottomSheetM3()
-
-
-
-
         }
-
-        }
-        ModalBottomSheetM3()
     }
+}
+
 
 @Composable
 fun OrgRow(
     orgname: String,
+    url: String,
     onItemClick: (String) -> Unit = {}
 ) {
     val navController = rememberNavController()
@@ -197,23 +195,19 @@ fun OrgRow(
         ) {
 
             Column(
-                verticalArrangement = Arrangement.Center,
+                //verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 Box(
                     modifier = Modifier
                         .height(200.dp) // Adjust the height as needed
-                        .fillMaxWidth()
+                        //.fillMaxWidth()
                         .background(BlancoGris)
                 ) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.arena1),
-                        contentDescription = "Imagen de la organización",
-                        contentScale = ContentScale.Crop,
-                        //modifier = Modifier.fillMaxHeight()
-
+                    AsyncImage(
+                        model = url,
+                        contentDescription = null,
                     )
 
                     /*
@@ -266,7 +260,7 @@ fun OrgRow(
 fun header(){
     Column(
         //modifier = Modifier.background(GrisClaro)
-        ) {
+    ) {
         Image(
             painter = painterResource(id = R.drawable.orillainicio),
             contentDescription = null,
@@ -346,8 +340,8 @@ fun ModalBottomSheetM3() {
         contentPadding = PaddingValues(16.dp),// Optional padding to make it larger
         modifier = Modifier
             .offset(y = (15.dp))
-            .offset(x = (280.dp)),
-            colors = ButtonDefaults.buttonColors(RojoFrisa)
+            .offset(x = (300.dp)),
+        colors = ButtonDefaults.buttonColors(RojoFrisa)
 
 
     ) {
@@ -376,7 +370,7 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
     var title by remember { mutableStateOf("") }
     var contenido by remember { mutableStateOf("") }
     var urlimg by remember { mutableStateOf("") }
-        Column(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
@@ -465,7 +459,7 @@ fun BottomSheetContent(onHideButtonClick: () -> Unit) {
 fun CardOrganizaciones(
     postTitle:String,
     onItemClick:(String) -> Unit = {}
-    ) { //Se agrego navController
+) { //Se agrego navController
     Card(
         modifier = Modifier
             .padding(bottom = 15.dp)
@@ -476,9 +470,9 @@ fun CardOrganizaciones(
                 //navController.navigate("detalles")
             },
 
-        /*elevation = 8.dp*/
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = BlancoGris)
+
+    shape = RoundedCornerShape(20.dp),
+    colors = CardDefaults.cardColors(containerColor = BlancoGris)
 
     ) {
         Column(
@@ -496,7 +490,7 @@ fun CardOrganizaciones(
                     .height(150.dp)
                     .fillMaxWidth(),
                 contentScale = ContentScale.Crop,
-                )
+            )
             Column(
                 modifier = Modifier
                     .padding(10.dp)
@@ -532,16 +526,16 @@ fun PreviewCardOrganizaciones(){
 
  */
 
+/*
 @Composable
 fun NavegacionInferiorTheme(content: @Composable () -> Unit) {
     MaterialTheme(
-
         typography = MaterialTheme.typography,
         content = content
     )
 }
 
-
+*/
 
 
 /*
@@ -575,6 +569,3 @@ fun NavegacionInferiorTheme(content: @Composable () -> Unit) {
     }
 
  */
-
-
-

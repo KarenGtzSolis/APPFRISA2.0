@@ -1,6 +1,8 @@
 package com.example.navdrawer.service
 
-
+// import com.example.navdrawer.model.OrgRegister
+//COMENTE UN IMPORT QUE NO ME DEJABA COMPILAR
+/*import com.example.navdrawer.model.OrgRegister */
 import com.example.navdrawer.model.UserLogin
 import com.example.navdrawer.model.UserLoginResponse
 import com.example.navdrawer.model.UserRegister
@@ -27,7 +29,8 @@ interface UserService {
                 .create(UserService::class.java)
     }
 
-    @POST("api/user") // Ruta para el registro de usuario
+
+    @POST("user/register") // Ruta para el registro de usuario
     suspend fun insertUser(@Body user: UserRegister): UserRegistrationResponse
 
     @POST("user/login") // Ruta para el inicio de sesión de usuario
@@ -38,6 +41,14 @@ interface UserService {
 
     @GET("user/{phone}") // Ruta para obtener un usuario específico
     suspend fun getUserByPhone(@Path("phone") phone: Int): UserRegister
+
+    @GET("/organizations/tags/all") // Ruta para obtener todos los tags
+    suspend fun getAllTags(): List<String>
+
+    /*
+    @GET("/organizations/tags") // Ruta para obtener organizaciones por tags
+    suspend fun getOrgByTag(tag: List<Strng>): List<OrgRegister>
+    */
 
     @PATCH("user/{phone}") // Ruta para actualizar un usuario específico
     suspend fun updateUser(@Path("phone") phone: Int, @Body user: UserRegister): UserRegister
