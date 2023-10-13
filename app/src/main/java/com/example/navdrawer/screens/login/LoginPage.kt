@@ -47,6 +47,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.example.navdrawer.service.UserService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.RojoFrisa
@@ -273,6 +274,23 @@ fun LoginPage(navController: NavHostController,
                         .padding(top = 10.dp)
                         .clickable {
                             navController.navigate("LoginPageOSC")
+                        }
+                )
+
+                Text(
+                    text = "¿Invitado? Haz click aquí",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        textDecoration = TextDecoration.Underline
+
+                    ),
+                    modifier = Modifier
+                        //.offset(y = (220.dp))
+                        //.align(Alignment.CenterHorizontally)
+                        .padding(top = 10.dp)
+                        .clickable {
+                            navController.navigate("HomePage")
                         }
                 )
             }
