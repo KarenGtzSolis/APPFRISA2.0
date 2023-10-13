@@ -54,6 +54,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -80,6 +81,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import com.example.navdrawer.UserViewModel.OrganizationViewModel
+import com.example.navdrawer.model.OrganizationResponse
+import com.example.navdrawer.service.OrgService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 import com.example.navdrawer.ui.theme.Purple80
@@ -89,6 +94,7 @@ import com.example.navdrawer.ui.theme.RojoFrisa
 @Composable
 fun HomePage(navController: NavController, viewModel: AppViewModel) {
 
+    val orgViewModel = OrganizationViewModel(OrgService.instance)
     val loggedIn = remember {
         mutableStateOf(viewModel.isUserLoggedIn())
     }
@@ -108,6 +114,23 @@ fun HomePage(navController: NavController, viewModel: AppViewModel) {
                 .offset(x = ((-120).dp))
         )
     }
+    val Organizations = remember {
+        mutableStateOf(OrganizationResponse())
+    }
+
+    LaunchedEffect(key1 = orgViewModel.getOrgResult) {
+        orgViewModel.getUserFavoriteOrganization()
+        orgViewModel.getOrgResult.collect { result ->
+            if (result != null) {
+
+                val organizationsResponse = OrganizationResponse()
+                organizationsResponse.addAll(result)
+                Organizations.value = organizationsResponse
+
+            }
+        }
+    }
+
 
     val organizaciones: List<String> = listOf(
         "Organizacion A",
@@ -136,8 +159,8 @@ fun HomePage(navController: NavController, viewModel: AppViewModel) {
                 modifier = Modifier
                     .padding(top = 100.dp),
                 content = {
-                items(items = organizaciones) {
-                    OrgRow(orgname = it) { orgname ->
+                items(items = Organizations.value) {
+                    OrgRow(orgname = it.name,it.image) { orgname ->
                         Log.d("Organizaciones", "$orgname")
                         //navController.navigate("movieDetail/$movie") // Navega a la pantalla de detalles con el nombre de la película
                         navController.navigate("AboutPage/" + orgname)
@@ -179,6 +202,7 @@ fun HomePage(navController: NavController, viewModel: AppViewModel) {
 @Composable
 fun OrgRow(
     orgname: String,
+    url: String,
     onItemClick: (String) -> Unit = {}
 ) {
     val navController = rememberNavController()
@@ -208,12 +232,9 @@ fun OrgRow(
                         .background(BlancoGris)
                 ) {
 
-                    Image(
-                        painter = painterResource(id = R.drawable.arena1),
-                        contentDescription = "Imagen de la organización",
-                        contentScale = ContentScale.Crop,
-                        //modifier = Modifier.fillMaxHeight()
-
+                    AsyncImage(
+                        model = url,
+                        contentDescription = null,
                     )
 
                     /*
