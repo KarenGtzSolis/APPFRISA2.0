@@ -136,7 +136,8 @@ fun contenidoOrgs(navController: NavController, viewModel: AppViewModel){
         "¿Necesitas ayuda?"
     )
 
-    Column(modifier = Modifier.padding(12.dp)) {
+    Column(modifier = Modifier.padding(start = 12.dp)
+        .padding(top = 12.dp)) {
         LazyRow(
             modifier = Modifier
                 .padding(top = 100.dp),
@@ -152,7 +153,7 @@ fun contenidoOrgs(navController: NavController, viewModel: AppViewModel){
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         )
 
-        Column {
+        Column(modifier = Modifier.padding(end = 12.dp)) {
             Text(
                 text = "Publicaciones",
                 style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold),
@@ -162,7 +163,7 @@ fun contenidoOrgs(navController: NavController, viewModel: AppViewModel){
             )
         }
 
-        LazyColumn {
+        LazyColumn(modifier = Modifier.padding(end = 12.dp)) {
             items(items = posttitulo) {
                 CardOrganizaciones(postTitle = it) { postTitle ->
                     navController.navigate("detalles/" + postTitle)
