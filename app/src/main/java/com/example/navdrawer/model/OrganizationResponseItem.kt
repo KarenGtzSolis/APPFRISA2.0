@@ -14,7 +14,7 @@ data class OrganizationResponseItem(
     val linkWeb: String,
     val name: String,
     val password: String,
-    val phone: Int,
+    val phone: String,
     val schedule: String,
     val state: String,
     val street: String,

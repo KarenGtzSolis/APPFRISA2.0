@@ -72,10 +72,17 @@ fun AboutPage(orgname: String = "", navController: NavHostController) {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             ))
+            Text(text = organization.schedule, style = TextStyle(
+                color = Black,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            ))
+            
             AsyncImage(
                 model = organization.image,
                 contentDescription = null,
             )
+
         }
 
         LaunchedEffect(key1 = orgViewModel.getOrgResult) {

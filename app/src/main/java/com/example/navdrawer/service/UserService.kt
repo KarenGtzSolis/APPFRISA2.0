@@ -40,7 +40,7 @@ interface UserService {
     suspend fun getAllUsers(): List<UserRegister>
 
     @GET("user/{phone}") // Ruta para obtener un usuario específico
-    suspend fun getUserByPhone(@Path("phone") phone: Int): UserRegister
+    suspend fun getUserByPhone(@Path("phone") phone: String): UserRegister
 
     @GET("/organizations/tags/all") // Ruta para obtener todos los tags
     suspend fun getAllTags(): List<String>

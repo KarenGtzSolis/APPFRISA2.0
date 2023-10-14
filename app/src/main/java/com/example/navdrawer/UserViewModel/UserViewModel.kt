@@ -28,7 +28,7 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
     private val _protectedResult = MutableStateFlow<UserProtectedResponse?>(null)
     val protectedResult: StateFlow<UserProtectedResponse?> = _protectedResult
 
-    fun addUser(name: String, lastname:String, phone:Int, password:String, description: String) {
+    fun addUser(name: String, lastname:String, phone:String, password:String, description: String) {
         _registrationResult.value = null
 
         //val user = UserRegister(name,lastname,phone,email,password,tags,favorites)
@@ -84,7 +84,7 @@ class UserViewModel(private val userService: UserService) : ViewModel() {
 
      */
 
-    fun loginUser(phone: Int, password: String) {
+    fun loginUser(phone: String, password: String) {
 
         // Reset the login result to nul before making a new login request
         _loginResult.value = null

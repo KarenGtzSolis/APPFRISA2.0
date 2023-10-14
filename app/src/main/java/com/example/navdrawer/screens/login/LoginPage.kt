@@ -226,7 +226,7 @@ fun LoginPage(navController: NavHostController,
                        // viewModel.setLoggedIn()
                         //navController.navigate("MainPage")
                         //navController.navigate("MainPage")
-                        userviewModel.loginUser(phone.trim().toInt(), password)
+                        userviewModel.loginUser(phone.trim(), password)
                     },
                     modifier = Modifier
                         //.offset(y = (-208.dp))
