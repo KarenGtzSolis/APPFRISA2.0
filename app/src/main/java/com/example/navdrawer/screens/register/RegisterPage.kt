@@ -281,7 +281,7 @@ fun RegisterPage(navController: NavController,
             onClick = {
                 // Redirige a la página de registro (RegisterPage)
                 //navController.navigate("TagsPage")
-                viewModel.addUser(name.value, lastname.value, phone.value.trim().toInt(), password.value, description.value)
+                viewModel.addUser(name.value, lastname.value, phone.value.trim(), password.value, description.value)
             },
             colors = ButtonDefaults.buttonColors(RojoFrisa),
             modifier = Modifier

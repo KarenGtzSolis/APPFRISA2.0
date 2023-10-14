@@ -5,7 +5,7 @@ data class UserLoginResponse (
     val id: String = "",
     val name: String = "",
     val lastname: String = "",
-    val phone: Int = 0,
+    val phone: String = "",
     val tags: List<String> = emptyList(),
     val favorites: List<String> = emptyList()
 )

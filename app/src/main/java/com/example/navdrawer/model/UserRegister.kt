@@ -3,7 +3,7 @@ package com.example.navdrawer.model
 data class UserRegister(
     val name: String ="", // Puede ser nulo
     val lastname: String="", // Puede ser nulo
-    val phone: Int=0, // Puede ser nulo
+    val phone: String, // Puede ser nulo
     //val email: String?="", // Puede ser nulo
     val password: String?="", // Puede ser nulo
     val description: String?=""

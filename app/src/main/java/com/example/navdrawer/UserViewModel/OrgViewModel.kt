@@ -28,7 +28,7 @@ class OrgViewModel(private val orgService: OrgService) : ViewModel() {
     val orgProtectedResult: StateFlow<OrgRegisterResponse?> = _orgProtectedResult
 
 
-    fun addOrg(name: String, phone: Int, email:String,street:String,suburb:String,city:String,state:String,
+    fun addOrg(name: String, phone: String, email:String,street:String,suburb:String,city:String,state:String,
                 schedule:String, linkWeb:String, linkFacebook:String, linkInstagram:String,linkTwitter:String, linkOther:String,
                 description: String, image:String, tags: List<String>, password:String) {
 
@@ -50,7 +50,7 @@ class OrgViewModel(private val orgService: OrgService) : ViewModel() {
         }
     }
 
-    fun loginOrg(phone: Int, password: String) {
+    fun loginOrg(phone: String, password: String) {
 
         // Reset the login result to nul before making a new login request
         _orgLoginResult.value = null

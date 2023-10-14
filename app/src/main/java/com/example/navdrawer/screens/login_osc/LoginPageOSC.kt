@@ -204,7 +204,7 @@ fun LoginPageOSC(navController: NavHostController, viewModel: AppViewModel,
                         // Redirige a la página de inicio (HomePage) si se autentica con éxito
                         //viewModel.setLoggedIn()
                         //navController.navigate("MainPage")
-                        orgviewModel.loginOrg(phone.trim().toInt(), password)
+                        orgviewModel.loginOrg(phone.trim(), password)
                     },
                     colors = ButtonDefaults.buttonColors(RojoFrisa),
                     modifier = Modifier

@@ -523,7 +523,7 @@ fun RegisterPageOSC(navController: NavController) {
             onClick = {
                 // Redirige a la página de registro (RegisterPage)
                 //navController.navigate("TagsPage")
-                orgViewModel.addOrg(name.value, phone.value.trim().toInt(), email.value,
+                orgViewModel.addOrg(name.value, phone.value.trim(), email.value,
                     street.value, suburb.value, city.value,state.value, schedule.value,
                     linkWeb.value, linkFacebook.value, linkInstagram.value,linkTwitter.value,
                     linkOther.value, description.value, image.value,

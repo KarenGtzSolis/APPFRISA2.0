@@ -184,6 +184,19 @@ fun AboutPage(orgname: String = "", navController: NavHostController) {
                 fontWeight = FontWeight.Bold
             ))
 
+            Text(text = organization.schedule, style = TextStyle(
+                color = Black,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            ))
+            
+            AsyncImage(
+                model = organization.image,
+                contentDescription = null,
+            )
+
+
+
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
@@ -311,18 +324,6 @@ fun AboutPage(orgname: String = "", navController: NavHostController) {
 
             // AQUÍ VAN LAS PUBLICACIONES DE LA ORGANIZACIÓN
             Spacer(modifier = Modifier.height(10.dp))
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         }

@@ -2,7 +2,7 @@ package com.example.navdrawer.model
 
 data class OrgRegister(
     val name: String?="",
-    val phone: Int=0,
+    val phone: String?="",
     val email: String?="",
     val street: String?="",
     val suburb: String?="",
