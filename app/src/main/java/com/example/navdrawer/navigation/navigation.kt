@@ -209,7 +209,7 @@ fun MainPage() {
                             contentDescription = "Logo de Frisa",
                             modifier = Modifier
                                 .height(40.dp)
-                                .offset(x = (130.dp))
+                                .offset(x = (120.dp))
                                 .width(30.dp)
                             //.background(BlancoGris)
                             //, alignment = Alignment.Center
