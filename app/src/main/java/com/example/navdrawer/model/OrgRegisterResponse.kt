@@ -1,5 +1,8 @@
 package com.example.navdrawer.model
 
-class OrgRegisterResponse {
-    var message: String? = null
-}
+data class OrgRegisterResponse(
+    val token: String?="",
+    val id: String?="",
+    val name: String?=""
+    // Add other fields specific to the organization schema as needed
+)

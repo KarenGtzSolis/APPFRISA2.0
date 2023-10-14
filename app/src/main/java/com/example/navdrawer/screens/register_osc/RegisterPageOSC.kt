@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,14 +37,35 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.navdrawer.R
+import com.example.navdrawer.model.OrgRegisterResponse
+import com.example.navdrawer.service.OrgService
 import com.example.navdrawer.ui.theme.BlancoGris
 import com.example.navdrawer.ui.theme.GrisClaro
 import com.example.navdrawer.ui.theme.Purple80
 import com.example.navdrawer.ui.theme.RojoFrisa
+import com.example.navdrawer.viewModel.OrgViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun RegisterPageOSC(navController: NavController) {
+    val orgViewModel = OrgViewModel(OrgService.instance)
+    val showDelayedText=remember{mutableStateOf(false)}
+
+    val orgRegisterResult = remember {
+        mutableStateOf(OrgRegisterResponse())
+    }
+
+    LaunchedEffect(key1= orgViewModel) {
+        orgViewModel.orgRegisterResult.collect { result ->
+            if (result != null) {
+                orgRegisterResult.value = result
+
+                showDelayedText.value=true
+            }
+        }
+    }
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -93,23 +115,28 @@ fun RegisterPageOSC(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         // Text Input y otros elementos
-        val nombre = remember { mutableStateOf("") }
-        val alias = remember { mutableStateOf("") }
-        val email = remember { mutableStateOf("") }
+        val name = remember { mutableStateOf("") }
         val phone = remember { mutableStateOf("") }
-        val calle = remember { mutableStateOf("") }
-        val colonia = remember { mutableStateOf("") }
-        val municipio = remember { mutableStateOf("") }
-        val estado = remember { mutableStateOf("") }
-        val horario = remember { mutableStateOf("") }
-        val liga1 = remember { mutableStateOf("") }
-        val liga2 = remember { mutableStateOf("") }
-        val liga3 = remember { mutableStateOf("") }
+        val email = remember { mutableStateOf("") }
+        val street = remember { mutableStateOf("") }
+        val suburb = remember { mutableStateOf("") }
+        val city = remember { mutableStateOf("") }
+        val state = remember { mutableStateOf("") }
+        val schedule = remember { mutableStateOf("") }
+        val linkWeb = remember { mutableStateOf("") }
+        val linkFacebook = remember { mutableStateOf("") }
+        val linkInstagram = remember { mutableStateOf("") }
+        val linkTwitter= remember { mutableStateOf("") }
+        val linkOther = remember { mutableStateOf("") }
+        val description = remember { mutableStateOf("") }
+        val image = remember { mutableStateOf("") }
+        val tags = remember { mutableStateOf("") }
+        val password = remember { mutableStateOf("") }
 
         OutlinedTextField(
-            value = nombre.value,
-            onValueChange = { newValue ->
-                nombre.value = newValue
+            value = name.value,
+            onValueChange = {
+                name.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -128,9 +155,9 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = alias.value,
-            onValueChange = { newValue ->
-                alias.value = newValue
+            value = phone.value,
+            onValueChange = {
+                phone.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -138,7 +165,7 @@ fun RegisterPageOSC(navController: NavController) {
                 focusedContainerColor = BlancoGris,
                 unfocusedContainerColor = BlancoGris
             ),
-            label = { Text("Apellido") },
+            label = { Text("Teléfono") },
             modifier = Modifier
                 .padding(5.dp)
                 .width(330.dp)
@@ -150,8 +177,8 @@ fun RegisterPageOSC(navController: NavController) {
 
         OutlinedTextField(
             value = email.value,
-            onValueChange = { newValue ->
-                email.value = newValue
+            onValueChange = {
+                email.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -160,27 +187,6 @@ fun RegisterPageOSC(navController: NavController) {
                 unfocusedContainerColor = BlancoGris
             ),
             label = { Text("Correo") },
-            modifier = Modifier
-                .padding(5.dp)
-                .width(330.dp)
-                .height(59.dp)
-            //.offset(y = (140).dp)
-            ,
-            shape = RoundedCornerShape(90)
-        )
-
-        OutlinedTextField(
-            value = phone.value,
-            onValueChange = { newValue ->
-                phone.value = newValue
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = BlancoGris,
-                unfocusedBorderColor = BlancoGris,
-                focusedContainerColor = BlancoGris,
-                unfocusedContainerColor = BlancoGris
-            ),
-            label = { Text("Teléfono") },
             modifier = Modifier
                 .padding(5.dp)
                 .width(330.dp)
@@ -201,9 +207,9 @@ fun RegisterPageOSC(navController: NavController) {
 
 
         OutlinedTextField(
-            value = calle.value,
-            onValueChange = { newValue ->
-                calle.value = newValue
+            value = street.value,
+            onValueChange = {
+                street.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -222,9 +228,9 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = colonia.value,
-            onValueChange = { newValue ->
-                colonia.value = newValue
+            value = suburb.value,
+            onValueChange = {
+                suburb.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -243,17 +249,17 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = municipio.value,
-            onValueChange = { newValue ->
-                municipio.value = newValue
-            },
+            value = city.value,
+            onValueChange = {
+                city.value = it
+                            },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
                 unfocusedBorderColor = BlancoGris,
                 focusedContainerColor = BlancoGris,
                 unfocusedContainerColor = BlancoGris
             ),
-            label = { Text("Municipio/Ciudad") },
+            label = { Text("Ciudad") },
             modifier = Modifier
                 .padding(5.dp)
                 .width(330.dp)
@@ -264,9 +270,9 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = estado.value,
-            onValueChange = { newValue ->
-                estado.value = newValue
+            value =state.value,
+            onValueChange = {
+                state.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -294,9 +300,9 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = horario.value,
-            onValueChange = { newValue ->
-                horario.value = newValue
+            value = schedule.value,
+            onValueChange = {
+                schedule.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -324,9 +330,9 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = liga1.value,
-            onValueChange = { newValue ->
-                liga1.value = newValue
+            value = linkWeb.value,
+            onValueChange = {
+                linkWeb.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -345,9 +351,9 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = liga2.value,
-            onValueChange = { newValue ->
-                liga2.value = newValue
+            value = linkFacebook.value,
+            onValueChange = {
+                linkFacebook.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -366,9 +372,9 @@ fun RegisterPageOSC(navController: NavController) {
         )
 
         OutlinedTextField(
-            value = liga3.value,
-            onValueChange = { newValue ->
-                liga3.value = newValue
+            value = linkInstagram.value,
+            onValueChange = {
+                linkInstagram.value = it
             },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = BlancoGris,
@@ -385,13 +391,143 @@ fun RegisterPageOSC(navController: NavController) {
             ,
             shape = RoundedCornerShape(90)
         )
+        OutlinedTextField(
+            value = linkTwitter.value,
+            onValueChange = {
+                linkTwitter.value = it
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = BlancoGris,
+                unfocusedBorderColor = BlancoGris,
+                focusedContainerColor = BlancoGris,
+                unfocusedContainerColor = BlancoGris
+            ),
+            label = { Text("Twitter") },
+            modifier = Modifier
+                .padding(5.dp)
+                .width(330.dp)
+                .height(59.dp)
+            //.offset(y = (140).dp)
+            ,
+            shape = RoundedCornerShape(90)
+        )
+
+        OutlinedTextField(
+            value = linkOther.value,
+            onValueChange = {
+                linkOther.value = it
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = BlancoGris,
+                unfocusedBorderColor = BlancoGris,
+                focusedContainerColor = BlancoGris,
+                unfocusedContainerColor = BlancoGris
+            ),
+            label = { Text("Otro") },
+            modifier = Modifier
+                .padding(5.dp)
+                .width(330.dp)
+                .height(59.dp)
+            //.offset(y = (140).dp)
+            ,
+            shape = RoundedCornerShape(90)
+        )
+
+        OutlinedTextField(
+            value = description.value,
+            onValueChange = {
+                description.value = it
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = BlancoGris,
+                unfocusedBorderColor = BlancoGris,
+                focusedContainerColor = BlancoGris,
+                unfocusedContainerColor = BlancoGris
+            ),
+            label = { Text("Descripción de osc") },
+            modifier = Modifier
+                .padding(5.dp)
+                .width(330.dp)
+                .height(59.dp)
+            //.offset(y = (140).dp)
+            ,
+            shape = RoundedCornerShape(90)
+        )
+
+        OutlinedTextField(
+            value = image.value,
+            onValueChange = {
+                image.value = it
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = BlancoGris,
+                unfocusedBorderColor = BlancoGris,
+                focusedContainerColor = BlancoGris,
+                unfocusedContainerColor = BlancoGris
+            ),
+            label = { Text("URL de imagen") },
+            modifier = Modifier
+                .padding(5.dp)
+                .width(330.dp)
+                .height(59.dp)
+            //.offset(y = (140).dp)
+            ,
+            shape = RoundedCornerShape(90)
+        )
+
+        OutlinedTextField(
+            value = tags.value,
+            onValueChange = {
+                tags.value = it
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = BlancoGris,
+                unfocusedBorderColor = BlancoGris,
+                focusedContainerColor = BlancoGris,
+                unfocusedContainerColor = BlancoGris
+            ),
+            label = { Text("Tags") },
+            modifier = Modifier
+                .padding(5.dp)
+                .width(330.dp)
+                .height(59.dp)
+            //.offset(y = (140).dp)
+            ,
+            shape = RoundedCornerShape(90)
+        )
+
+        OutlinedTextField(
+            value = password.value,
+            onValueChange = {
+                password.value = it
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = BlancoGris,
+                unfocusedBorderColor = BlancoGris,
+                focusedContainerColor = BlancoGris,
+                unfocusedContainerColor = BlancoGris
+            ),
+            label = { Text("Contraseña") },
+            modifier = Modifier
+                .padding(5.dp)
+                .width(330.dp)
+                .height(59.dp)
+            //.offset(y = (140).dp)
+            ,
+            shape = RoundedCornerShape(90)
+        )
 
 
         // Botón de Registro
         Button(
             onClick = {
                 // Redirige a la página de registro (RegisterPage)
-                navController.navigate("TagsPage")
+                //navController.navigate("TagsPage")
+                orgViewModel.addOrg(name.value, phone.value.trim().toInt(), email.value,
+                    street.value, suburb.value, city.value,state.value, schedule.value,
+                    linkWeb.value, linkFacebook.value, linkInstagram.value,linkTwitter.value,
+                    linkOther.value, description.value, image.value,
+                    listOf(tags.value), password.value)
             },
             colors = ButtonDefaults.buttonColors(RojoFrisa),
             modifier = Modifier
@@ -404,6 +540,22 @@ fun RegisterPageOSC(navController: NavController) {
             Text("REGISTRARSE",
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 16.sp)
+        }
+
+        LaunchedEffect(showDelayedText) {
+            if (showDelayedText.value) {
+                launch {
+                    //navController.navigate("TagsPage")
+                    delay(5000)
+                    // Delay for 2 seconds (adjust as needed)
+                    showDelayedText.value = false
+                }
+            }
+        }
+        if (showDelayedText.value) {
+            Text(text = "Registro Exitoso")
+            Text(text = "En 5 segundos serás redirigido a la pantalla de inicio.")
+            navController.navigate("HomePage")
         }
 
         // Imagen de orilla2

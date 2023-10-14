@@ -32,4 +32,3 @@ class OrganizationViewModel(private val orgService: OrgService) : ViewModel() {
         }
     }
 }
-

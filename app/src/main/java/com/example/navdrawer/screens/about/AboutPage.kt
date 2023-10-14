@@ -33,10 +33,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
+
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.graphics.Color.Companion.White
+
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -192,7 +199,7 @@ fun AboutPage(orgname: String = "", navController: NavHostController) {
             Text(text = organization.email, modifier = Modifier
                 .padding(start = 20.dp),
                 style = TextStyle(
-                    color = Black,
+                    color = Color.Black,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold
                 ))
@@ -200,7 +207,7 @@ fun AboutPage(orgname: String = "", navController: NavHostController) {
             Text(text = organization.linkWeb, modifier = Modifier
                 .padding(start = 20.dp),
                 style = TextStyle(
-                    color = Black,
+                    color = Color.Black,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold
                 ))
@@ -210,7 +217,7 @@ fun AboutPage(orgname: String = "", navController: NavHostController) {
             Text(text = organization.street, modifier = Modifier
                 .padding(start = 20.dp),
                 style = TextStyle(
-                    color = Black,
+                    color = Color.Black,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold
                 ))
