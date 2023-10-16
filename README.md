@@ -12,9 +12,7 @@ Además, ofrecemos a las organizaciones la oportunidad de hacer su presencia vis
 
 ## Imagenes de la aplicacion
 
-![Main Page](https://i.ibb.co/nQLJwRp/main-page.png)
-![Organization Page](https://i.ibb.co/K5nFL9T/Info-Organizacion.png)
-![Post Page](https://i.ibb.co/mb5Tk8F/post.png)
+<img src="https://i.ibb.co/nQLJwRp/main-page.png" alt="Main Page" width="100"/> <img src="https://i.ibb.co/K5nFL9T/Info-Organizacion.png" alt="Organization Page" width="100"/> <img src="https://i.ibb.co/mb5Tk8F/post.png" alt="Post Page" width="100"/>
 
 
 
