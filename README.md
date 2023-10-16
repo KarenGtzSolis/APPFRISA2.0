@@ -10,9 +10,12 @@ Con un enfoque en la facilidad de uso, nuestra aplicación proporciona informaci
 Además, ofrecemos a las organizaciones la oportunidad de hacer su presencia visible a nuestros usuarios. Esto les permite ofrecer sus servicios de manera más fácil. Las organizaciones pueden compartir publicaciones directamente en la aplicación, asegurándose de que su información llegue directamente a quienes la necesitan.
 
 
-## Video de explicacion
+## Imagenes de la aplicacion
 
--- link a video --
+![Main Page](https://i.ibb.co/nQLJwRp/main-page.png)
+![Organization Page](https://i.ibb.co/K5nFL9T/Info-Organizacion.png)
+![Post Page](https://i.ibb.co/mb5Tk8F/post.png)
+
 
 
 ## URL de la API
