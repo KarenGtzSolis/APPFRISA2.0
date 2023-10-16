@@ -26,18 +26,26 @@ Para descargar este proyecto, siga los siguientes pasos:
 
 
 1. Descargue e instale las dependencias:
-	Node.js: Descarga e instala Node.js desde https://nodejs.org/.
-	MongoDB: Sigue las instrucciones de instalación de MongoDB desde https://docs.mongodb.com/manual/installation/.
+
+Node.js: Descarga e instala Node.js desde https://nodejs.org/.
+
+MongoDB: Sigue las instrucciones de instalación de MongoDB desde https://docs.mongodb.com/manual/installation/.
 
 2. Clone el repositorio:
-	Abra la terminal y ejecuta el siguiente comando para clonar el repositorio: git clone https://github.com/KarenGtzSolis/APPFRISA2.0.git
-	Para clonar el repositorio de la API ejecute el siguiente comando: git clone https://github.com/carotopia/APIFrisa
+
+Abra la terminal y ejecuta el siguiente comando para clonar el repositorio: git clone https://github.com/KarenGtzSolis/APPFRISA2.0.git
+
+Para clonar el repositorio de la API ejecute el siguiente comando: git clone https://github.com/carotopia/APIFrisa
 
 3. Configure la conexión a MongoDB:
-	Edite el archivo config.js en el repositorio clonado para configurar la conexión a la base de datos MongoDB.
+
+Edite el archivo config.js en el repositorio clonado para configurar la conexión a la base de datos MongoDB.
 
 4. Instale dependencias de Node.js:
-	En la terminal, navega al directorio del repositorio clonado: cd APIFrisa
-	Luego, instala las dependencias con: npm install
+
+En la terminal, navega al directorio del repositorio clonado: cd APIFrisa
+
+Luego, instala las dependencias con: npm install
 
 5. Ejecute la API; inicia la API con: npm start
+
